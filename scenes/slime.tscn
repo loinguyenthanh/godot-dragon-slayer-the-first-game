@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://te1rbmpf68l7"]
+
+[ext_resource type="Script" path="res://scripts/slime.gd" id="1_02rtv"]
+[ext_resource type="Texture2D" uid="uid://jdrnxu1257is" path="res://assets/sprites/slime_green.png" id="1_dia0b"]
+[ext_resource type="PackedScene" uid="uid://bj3n8nmj5lioj" path="res://scenes/killzone.tscn" id="2_0n58t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_21fwm"]
+atlas = ExtResource("1_dia0b")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ygd5h"]
+atlas = ExtResource("1_dia0b")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yme1i"]
+atlas = ExtResource("1_dia0b")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2sm6"]
+atlas = ExtResource("1_dia0b")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tj247"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_21fwm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ygd5h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yme1i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y2sm6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fflm8"]
+size = Vector2(9, 11)
+
+[node name="Slime" type="Node2D"]
+script = ExtResource("1_02rtv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tj247")
+autoplay = "default"
+frame_progress = 0.38778
+
+[node name="Killzone" parent="." instance=ExtResource("2_0n58t")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
+position = Vector2(0.5, 5.5)
+shape = SubResource("RectangleShape2D_fflm8")
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+target_position = Vector2(10, 0)
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-11, 0)
+
+[connection signal="draw" from="." to="Killzone" method="_on_slime_draw"]
